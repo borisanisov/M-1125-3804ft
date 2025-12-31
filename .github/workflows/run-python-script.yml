@@ -1,39 +1,13 @@
-name: Run Python Script on Push
+name: Python Script Runner
 
-on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+on: [push]
 
 jobs:
-  run-python-script:
+  run:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-        
-    - name: Run Python script
-      id: run-script
-      run: |
-        echo "=== Запуск Python скрипта ==="
-        python my_name.py
-        
-    - name: Success message
-      if: success()
-      run: |
-        echo "✅ Скрипт успешно выполнен!"
-        echo "ФИО и номер группы выведены в консоль"
-        
-    - name: Upload logs
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: python-script-output
-        path: ${{ github.workspace }}
+    - uses: actions/checkout@v4
+    
+    - name: Run script
+      run: python my_name.py
